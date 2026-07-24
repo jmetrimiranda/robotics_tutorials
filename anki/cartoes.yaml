@@ -1,0 +1,1182 @@
+# =====================================================================
+#  Fonte única dos flashcards de ROS 2
+# ---------------------------------------------------------------------
+#  tipo: cmd      -> cartão com caixa de digitação (você digita o comando)
+#  tipo: conceito -> cartão normal (pergunta/resposta, sem digitar)
+#
+#  Regra de ouro: 'cmd' só para respostas de UMA linha. A caixa de
+#  digitação do Anki é single-line; bloco de código vai como 'conceito'.
+#
+#  id  -> identificador estável. NÃO mude depois de importar, senão o
+#         Anki cria um cartão novo e você perde o histórico de revisão.
+# =====================================================================
+
+cartoes:
+
+# ---------------------------------------------------------------------
+# 01 - Ambiente e CLI
+# ---------------------------------------------------------------------
+- id: env-001
+  deck: "01 - Ambiente e CLI"
+  tipo: cmd
+  p: "Ativar (source) o ambiente ROS 2 Foxy no terminal atual"
+  r: "source /opt/ros/foxy/setup.bash"
+  n: "Precisa ser feito em TODO terminal novo. Isso é o *underlay*."
+
+- id: env-002
+  deck: "01 - Ambiente e CLI"
+  tipo: cmd
+  p: "Fazer o source do Foxy automaticamente em todo terminal novo"
+  r: "echo \"source /opt/ros/foxy/setup.bash\" >> ~/.bashrc"
+  n: "Acrescenta a linha no fim do ~/.bashrc, que roda a cada shell interativo."
+
+- id: env-003
+  deck: "01 - Ambiente e CLI"
+  tipo: cmd
+  p: "Conferir se as variáveis de ambiente do ROS estão setadas"
+  r: "printenv | grep -i ROS"
+  n: "Deve mostrar ROS_VERSION=2, ROS_PYTHON_VERSION=3, ROS_DISTRO=foxy."
+
+- id: env-004
+  deck: "01 - Ambiente e CLI"
+  tipo: cmd
+  p: "Definir o domain ID como 42 na sessão atual"
+  r: "export ROS_DOMAIN_ID=42"
+  n: "Só nós com o MESMO domain ID se enxergam. Use 0–101 para ser seguro."
+
+- id: env-005
+  deck: "01 - Ambiente e CLI"
+  tipo: cmd
+  p: "Limitar toda a comunicação ROS 2 ao localhost"
+  r: "export ROS_LOCALHOST_ONLY=1"
+  n: "Útil em sala de aula / rede compartilhada, para não invadir o grafo dos outros."
+
+- id: env-006
+  deck: "01 - Ambiente e CLI"
+  tipo: conceito
+  p: "Para que serve o ROS_DOMAIN_ID?"
+  r: "Isola grupos de nós na mesma rede: só nós com o mesmo domain ID se descobrem e se comunicam."
+  n: ""
+
+- id: env-007
+  deck: "01 - Ambiente e CLI"
+  tipo: cmd
+  p: "Instalar o pacote turtlesim (Foxy)"
+  r: "sudo apt install ros-foxy-turtlesim"
+  n: ""
+
+- id: env-008
+  deck: "01 - Ambiente e CLI"
+  tipo: cmd
+  p: "Listar os executáveis disponíveis dentro do pacote turtlesim"
+  r: "ros2 pkg executables turtlesim"
+  n: "Retorna turtlesim draw_square, turtlesim mimic, turtlesim turtle_teleop_key, turtlesim turtlesim_node."
+
+- id: env-009
+  deck: "01 - Ambiente e CLI"
+  tipo: cmd
+  p: "Rodar o nó turtlesim_node do pacote turtlesim"
+  r: "ros2 run turtlesim turtlesim_node"
+  n: "Forma geral: ros2 run <pacote> <executável>"
+
+- id: env-010
+  deck: "01 - Ambiente e CLI"
+  tipo: cmd
+  p: "Rodar o teleop de teclado do turtlesim"
+  r: "ros2 run turtlesim turtle_teleop_key"
+  n: ""
+
+- id: env-011
+  deck: "01 - Ambiente e CLI"
+  tipo: cmd
+  p: "Instalar o rqt e todos os seus plugins (Foxy)"
+  r: "sudo apt install ~nros-foxy-rqt*"
+  n: "O ~n é um padrão do apt (casa por NOME de pacote). Sem ele o glob não funciona."
+
+- id: env-012
+  deck: "01 - Ambiente e CLI"
+  tipo: conceito
+  p: "O que é o ROS graph?"
+  r: "A rede de elementos ROS 2 processando dados ao mesmo tempo: nós, tópicos, serviços, actions e parâmetros, e as conexões entre eles."
+  n: ""
+
+# ---------------------------------------------------------------------
+# 02 - Nodes e Tópicos
+# ---------------------------------------------------------------------
+- id: node-001
+  deck: "02 - Nodes e Tópicos"
+  tipo: cmd
+  p: "Listar todos os nós rodando"
+  r: "ros2 node list"
+  n: ""
+
+- id: node-002
+  deck: "02 - Nodes e Tópicos"
+  tipo: cmd
+  p: "Ver publishers, subscribers, serviços e actions do nó /turtlesim"
+  r: "ros2 node info /turtlesim"
+  n: "A barra é obrigatória: o nome é totalmente qualificado."
+
+- id: node-003
+  deck: "02 - Nodes e Tópicos"
+  tipo: cmd
+  p: "Subir o turtlesim_node renomeando o nó para my_turtle"
+  r: "ros2 run turtlesim turtlesim_node --ros-args --remap __node:=my_turtle"
+  n: "Tudo que vem depois de --ros-args é argumento do ROS, não do executável."
+
+- id: topic-001
+  deck: "02 - Nodes e Tópicos"
+  tipo: cmd
+  p: "Listar os tópicos ativos"
+  r: "ros2 topic list"
+  n: ""
+
+- id: topic-002
+  deck: "02 - Nodes e Tópicos"
+  tipo: cmd
+  p: "Listar os tópicos ativos MOSTRANDO o tipo de mensagem de cada um"
+  r: "ros2 topic list -t"
+  n: "O tipo aparece entre colchetes: /turtle1/cmd_vel [geometry_msgs/msg/Twist]"
+
+- id: topic-003
+  deck: "02 - Nodes e Tópicos"
+  tipo: cmd
+  p: "Ver ao vivo os dados publicados em /turtle1/cmd_vel"
+  r: "ros2 topic echo /turtle1/cmd_vel"
+  n: "O echo cria um nó subscriber temporário — ele aparece no rqt_graph."
+
+- id: topic-004
+  deck: "02 - Nodes e Tópicos"
+  tipo: cmd
+  p: "Ver a estrutura interna da mensagem geometry_msgs/msg/Twist"
+  r: "ros2 interface show geometry_msgs/msg/Twist"
+  n: "ATENÇÃO: é geometry_msgs, com S. Retorna Vector3 linear / Vector3 angular."
+
+- id: topic-005
+  deck: "02 - Nodes e Tópicos"
+  tipo: cmd
+  p: "Ver quantos publishers e subscribers tem o tópico /turtle1/cmd_vel"
+  r: "ros2 topic info /turtle1/cmd_vel"
+  n: ""
+
+- id: topic-006
+  deck: "02 - Nodes e Tópicos"
+  tipo: cmd
+  p: "Qual flag do 'ros2 topic pub' publica UMA mensagem e encerra?"
+  r: "--once"
+  n: "ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist \"{...}\""
+
+- id: topic-007
+  deck: "02 - Nodes e Tópicos"
+  tipo: cmd
+  p: "Qual flag do 'ros2 topic pub' publica continuamente a 1 Hz?"
+  r: "-r 1"
+  n: "Sem --once nem -r, o pub repete numa taxa padrão."
+
+- id: topic-008
+  deck: "02 - Nodes e Tópicos"
+  tipo: conceito
+  p: "Escreva o comando completo para mandar a tartaruga andar e girar uma única vez."
+  r: |
+    ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist \
+      "{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.8}}"
+  n: "Os argumentos vão em YAML, entre aspas."
+
+- id: topic-009
+  deck: "02 - Nodes e Tópicos"
+  tipo: cmd
+  p: "Medir a taxa (Hz) com que /turtle1/pose está sendo publicado"
+  r: "ros2 topic hz /turtle1/pose"
+  n: "Retorna average rate, min, max, std dev e window."
+
+- id: topic-010
+  deck: "02 - Nodes e Tópicos"
+  tipo: cmd
+  p: "Medir a largura de banda consumida por /turtle1/pose"
+  r: "ros2 topic bw /turtle1/pose"
+  n: ""
+
+- id: topic-011
+  deck: "02 - Nodes e Tópicos"
+  tipo: cmd
+  p: "Abrir a ferramenta gráfica que desenha o grafo de nós e tópicos"
+  r: "rqt_graph"
+  n: ""
+
+- id: topic-012
+  deck: "02 - Nodes e Tópicos"
+  tipo: conceito
+  p: "No rqt_graph, o que significa uma seta saindo do círculo (nó) para a caixa (tópico)?"
+  r: "O nó está PUBLICANDO no tópico. Seta da caixa para o círculo = o nó está inscrito (subscriber)."
+  n: ""
+
+- id: topic-013
+  deck: "02 - Nodes e Tópicos"
+  tipo: conceito
+  p: "Diferença essencial entre tópico e serviço"
+  r: "Tópico é publish/subscribe contínuo e anônimo (muitos para muitos, sem resposta). Serviço é request/response pontual: só devolve dado quando alguém pede."
+  n: ""
+
+- id: topic-014
+  deck: "02 - Nodes e Tópicos"
+  tipo: conceito
+  p: "Um nó deve ser responsável por quantas coisas?"
+  r: "Uma só — propósito único e modular (ex.: controlar as rodas, ou publicar o dado de um sensor). O sistema completo é a soma de vários nós."
+  n: ""
+
+# ---------------------------------------------------------------------
+# 03 - Serviços e Parâmetros
+# ---------------------------------------------------------------------
+- id: srv-001
+  deck: "03 - Serviços e Parâmetros"
+  tipo: cmd
+  p: "Listar todos os serviços ativos"
+  r: "ros2 service list"
+  n: ""
+
+- id: srv-002
+  deck: "03 - Serviços e Parâmetros"
+  tipo: cmd
+  p: "Listar os serviços ativos mostrando o tipo de cada um"
+  r: "ros2 service list -t"
+  n: ""
+
+- id: srv-003
+  deck: "03 - Serviços e Parâmetros"
+  tipo: cmd
+  p: "Descobrir o tipo do serviço /clear"
+  r: "ros2 service type /clear"
+  n: "Retorna std_srvs/srv/Empty."
+
+- id: srv-004
+  deck: "03 - Serviços e Parâmetros"
+  tipo: cmd
+  p: "Achar todos os serviços do tipo std_srvs/srv/Empty"
+  r: "ros2 service find std_srvs/srv/Empty"
+  n: "Retorna /clear e /reset."
+
+- id: srv-005
+  deck: "03 - Serviços e Parâmetros"
+  tipo: cmd
+  p: "Ver os argumentos de request e response do serviço /spawn"
+  r: "ros2 interface show turtlesim/srv/Spawn"
+  n: "É .srv, não .src. No Foxy o comando aceita o tipo sem extensão."
+
+- id: srv-006
+  deck: "03 - Serviços e Parâmetros"
+  tipo: conceito
+  p: "Num arquivo .srv, o que separa o request da response?"
+  r: "Três hífens: ---   (acima = request, abaixo = response)"
+  n: "No .action são DOIS separadores: goal --- result --- feedback."
+
+- id: srv-007
+  deck: "03 - Serviços e Parâmetros"
+  tipo: conceito
+  p: "Escreva o comando que cria uma tartaruga chamada 'jorge' em (6,6)."
+  r: |
+    ros2 service call /spawn turtlesim/srv/Spawn \
+      "{x: 6.0, y: 6.0, theta: 1.0, name: 'jorge'}"
+  n: "Forma geral: ros2 service call <serviço> <tipo> <argumentos em YAML>"
+
+- id: par-001
+  deck: "03 - Serviços e Parâmetros"
+  tipo: cmd
+  p: "Listar os parâmetros de todos os nós"
+  r: "ros2 param list"
+  n: ""
+
+- id: par-002
+  deck: "03 - Serviços e Parâmetros"
+  tipo: cmd
+  p: "Ler o valor atual do parâmetro background_g do nó /turtlesim"
+  r: "ros2 param get /turtlesim background_g"
+  n: ""
+
+- id: par-003
+  deck: "03 - Serviços e Parâmetros"
+  tipo: cmd
+  p: "Mudar em tempo de execução o background_r do /turtlesim para 150"
+  r: "ros2 param set /turtlesim background_r 150"
+  n: "Responde 'Set parameter successful'. O efeito some ao reiniciar o nó."
+
+- id: par-004
+  deck: "03 - Serviços e Parâmetros"
+  tipo: cmd
+  p: "Salvar todos os parâmetros do /turtlesim num arquivo YAML"
+  r: "ros2 param dump /turtlesim"
+  n: "Gera ./turtlesim.yaml no diretório atual."
+
+- id: par-005
+  deck: "03 - Serviços e Parâmetros"
+  tipo: cmd
+  p: "Carregar ./turtlesim.yaml num nó /turtlesim que JÁ está rodando"
+  r: "ros2 param load /turtlesim ./turtlesim.yaml"
+  n: ""
+
+- id: par-006
+  deck: "03 - Serviços e Parâmetros"
+  tipo: cmd
+  p: "Subir o turtlesim_node já carregando o arquivo ./turtlesim.yaml"
+  r: "ros2 run turtlesim turtlesim_node --ros-args --params-file ./turtlesim.yaml"
+  n: "Diferença para o 'param load': aqui os valores valem desde a inicialização."
+
+- id: par-007
+  deck: "03 - Serviços e Parâmetros"
+  tipo: cmd
+  p: "Ver tipo e descrição do parâmetro my_parameter do nó /minimal_param_node"
+  r: "ros2 param describe /minimal_param_node my_parameter"
+  n: "A descrição vem do ParameterDescriptor declarado no código."
+
+- id: par-008
+  deck: "03 - Serviços e Parâmetros"
+  tipo: conceito
+  p: "Que tipos um parâmetro pode ter?"
+  r: "integer, float (double), boolean, string e listas desses tipos."
+  n: "Pense em parâmetro como 'a configuração de um nó'."
+
+# ---------------------------------------------------------------------
+# 04 - Actions (CLI)
+# ---------------------------------------------------------------------
+- id: act-001
+  deck: "04 - Actions (CLI)"
+  tipo: cmd
+  p: "Listar todas as actions do grafo"
+  r: "ros2 action list"
+  n: ""
+
+- id: act-002
+  deck: "04 - Actions (CLI)"
+  tipo: cmd
+  p: "Listar as actions mostrando o tipo"
+  r: "ros2 action list -t"
+  n: "/turtle1/rotate_absolute [turtlesim/action/RotateAbsolute]"
+
+- id: act-003
+  deck: "04 - Actions (CLI)"
+  tipo: cmd
+  p: "Ver quem é cliente e quem é servidor da action /turtle1/rotate_absolute"
+  r: "ros2 action info /turtle1/rotate_absolute"
+  n: ""
+
+- id: act-004
+  deck: "04 - Actions (CLI)"
+  tipo: cmd
+  p: "Ver a estrutura (goal/result/feedback) do tipo RotateAbsolute"
+  r: "ros2 interface show turtlesim/action/RotateAbsolute"
+  n: "theta --- delta --- remaining"
+
+- id: act-005
+  deck: "04 - Actions (CLI)"
+  tipo: conceito
+  p: "Escreva o comando que manda a tartaruga girar para theta = 1.57."
+  r: |
+    ros2 action send_goal /turtle1/rotate_absolute \
+      turtlesim/action/RotateAbsolute "{theta: 1.57}"
+  n: "Forma geral: ros2 action send_goal <action> <tipo> <valores YAML>"
+
+- id: act-006
+  deck: "04 - Actions (CLI)"
+  tipo: cmd
+  p: "Qual flag acrescentada ao send_goal mostra o feedback contínuo?"
+  r: "--feedback"
+  n: "Sem ela você só vê o goal ID e o result final."
+
+- id: act-007
+  deck: "04 - Actions (CLI)"
+  tipo: conceito
+  p: "Quais são as três partes de uma action?"
+  r: "Goal (o pedido), Feedback (progresso periódico) e Result (o resultado final)."
+  n: ""
+
+- id: act-008
+  deck: "04 - Actions (CLI)"
+  tipo: conceito
+  p: "Action é construída em cima de quê, e para que serve?"
+  r: "Em cima de serviços (goal e result, request/response assíncrono) + tópico (feedback). Serve para tarefas longas, que dão progresso e podem ser canceladas."
+  n: ""
+
+- id: act-009
+  deck: "04 - Actions (CLI)"
+  tipo: conceito
+  p: "Qual a ordem dos três blocos num arquivo .action?"
+  r: |
+    # Goal (request)
+    ---
+    # Result
+    ---
+    # Feedback
+  n: "Dois separadores '---', três blocos."
+
+# ---------------------------------------------------------------------
+# 05 - Bag, rqt_console e logs
+# ---------------------------------------------------------------------
+- id: bag-001
+  deck: "05 - Bag, rqt_console e logs"
+  tipo: cmd
+  p: "Abrir a ferramenta gráfica de visualização de logs"
+  r: "ros2 run rqt_console rqt_console"
+  n: "Permite filtrar por nível de severidade e salvar/recarregar mensagens."
+
+- id: bag-002
+  deck: "05 - Bag, rqt_console e logs"
+  tipo: cmd
+  p: "Gravar os dados publicados em /turtle1/cmd_vel"
+  r: "ros2 bag record /turtle1/cmd_vel"
+  n: "Ctrl+C encerra. O ros2 bag só grava o que passa por TÓPICO."
+
+- id: bag-003
+  deck: "05 - Bag, rqt_console e logs"
+  tipo: cmd
+  p: "Gravar cmd_vel e pose num diretório chamado 'subset'"
+  r: "ros2 bag record -o subset /turtle1/cmd_vel /turtle1/pose"
+  n: "-o define o nome do diretório; os tópicos vão em lista."
+
+- id: bag-004
+  deck: "05 - Bag, rqt_console e logs"
+  tipo: cmd
+  p: "Ver duração, tamanho, tópicos e contagem de mensagens da bag 'subset'"
+  r: "ros2 bag info subset"
+  n: "O campo Count explica por que o play demora mais que o movimento."
+
+- id: bag-005
+  deck: "05 - Bag, rqt_console e logs"
+  tipo: cmd
+  p: "Reproduzir a bag 'subset'"
+  r: "ros2 bag play subset"
+  n: "Feche o teleop antes, senão os dois disputam o cmd_vel."
+
+- id: bag-006
+  deck: "05 - Bag, rqt_console e logs"
+  tipo: conceito
+  p: "Sem -o, qual o nome do diretório gerado pelo ros2 bag record?"
+  r: "rosbag2_ano_mes_dia-hora_minuto_segundo"
+  n: "Dentro dele: um .db3 (sqlite3) e um metadata.yaml."
+
+# ---------------------------------------------------------------------
+# 06 - Workspace, colcon e pacotes
+# ---------------------------------------------------------------------
+- id: ws-001
+  deck: "06 - Workspace, colcon e pacotes"
+  tipo: cmd
+  p: "Criar a estrutura inicial de um workspace chamado ros2_ws"
+  r: "mkdir -p ~/ros2_ws/src"
+  n: "Todo pacote vai dentro de src/."
+
+- id: ws-002
+  deck: "06 - Workspace, colcon e pacotes"
+  tipo: cmd
+  p: "Compilar o workspace inteiro (da raiz)"
+  r: "colcon build"
+  n: "Gera build/, install/ e log/ ao lado de src/."
+
+- id: ws-003
+  deck: "06 - Workspace, colcon e pacotes"
+  tipo: cmd
+  p: "Compilar SÓ o pacote my_package"
+  r: "colcon build --packages-select my_package"
+  n: "PEGADINHA: é --packages-select (plural + select), não --package-selected."
+
+- id: ws-004
+  deck: "06 - Workspace, colcon e pacotes"
+  tipo: cmd
+  p: "Compilar my_package E todas as dependências dele (mas não o workspace todo)"
+  r: "colcon build --packages-up-to my_package"
+  n: "PEGADINHA: --packages-up-to, plural."
+
+- id: ws-005
+  deck: "06 - Workspace, colcon e pacotes"
+  tipo: cmd
+  p: "Compilar de forma que editar um script Python não exija recompilar"
+  r: "colcon build --symlink-install"
+  n: "Cria links simbólicos em vez de copiar os arquivos para install/."
+
+- id: ws-006
+  deck: "06 - Workspace, colcon e pacotes"
+  tipo: cmd
+  p: "Compilar mostrando a saída do compilador direto no console"
+  r: "colcon build --event-handlers console_direct+"
+  n: "Sem isso a saída fica escondida em log/."
+
+- id: ws-007
+  deck: "06 - Workspace, colcon e pacotes"
+  tipo: cmd
+  p: "Checar dependências faltando antes do build (da raiz do workspace, Foxy)"
+  r: "rosdep install -i --from-path src --rosdistro foxy -y"
+  n: "Boa prática antes de todo colcon build."
+
+- id: ws-008
+  deck: "06 - Workspace, colcon e pacotes"
+  tipo: cmd
+  p: "Rodar os testes do workspace"
+  r: "colcon test"
+  n: ""
+
+- id: ws-009
+  deck: "06 - Workspace, colcon e pacotes"
+  tipo: cmd
+  p: "Fazer o source do overlay (o seu workspace), da raiz dele"
+  r: "source install/local_setup.bash"
+  n: ""
+
+- id: ws-010
+  deck: "06 - Workspace, colcon e pacotes"
+  tipo: conceito
+  p: "Diferença entre install/setup.bash e install/local_setup.bash"
+  r: "local_setup.bash expõe só os pacotes DESTE workspace. setup.bash expõe este workspace mais os underlays que ele herdou (é o atalho do dia a dia)."
+  n: ""
+
+- id: ws-011
+  deck: "06 - Workspace, colcon e pacotes"
+  tipo: conceito
+  p: "O que são underlay e overlay?"
+  r: "Underlay = workspace base cujo source você faz primeiro (normalmente a distro, /opt/ros/foxy). Overlay = o seu workspace por cima. Toda dependência do overlay precisa existir no underlay."
+  n: "O overlay tem precedência: um turtlesim modificado no seu ws vence o da distro."
+
+- id: ws-012
+  deck: "06 - Workspace, colcon e pacotes"
+  tipo: conceito
+  p: "Quais os 4 diretórios da raiz de um workspace depois do build?"
+  r: "build/ (arquivos intermediários), install/ (onde cada pacote é instalado), log/ (logs de cada invocação do colcon) e src/ (código-fonte)."
+  n: ""
+
+- id: pkg-001
+  deck: "06 - Workspace, colcon e pacotes"
+  tipo: cmd
+  p: "Criar um pacote Python chamado my_package (de dentro de src/)"
+  r: "ros2 pkg create --build-type ament_python my_package"
+  n: ""
+
+- id: pkg-002
+  deck: "06 - Workspace, colcon e pacotes"
+  tipo: cmd
+  p: "Criar o pacote my_package já com um executável my_node de exemplo"
+  r: "ros2 pkg create --build-type ament_python --node-name my_node my_package"
+  n: ""
+
+- id: pkg-003
+  deck: "06 - Workspace, colcon e pacotes"
+  tipo: cmd
+  p: "Criar o pacote py_srvcli já declarando as dependências rclpy e example_interfaces"
+  r: "ros2 pkg create --build-type ament_python py_srvcli --dependencies rclpy example_interfaces"
+  n: "Com --dependencies você não precisa editar o package.xml na mão."
+
+- id: pkg-004
+  deck: "06 - Workspace, colcon e pacotes"
+  tipo: cmd
+  p: "Criar um pacote CMake chamado tutorial_interfaces"
+  r: "ros2 pkg create --build-type ament_cmake tutorial_interfaces"
+  n: "Interfaces (.msg/.srv/.action) SÓ podem ser geradas em pacote ament_cmake."
+
+- id: pkg-005
+  deck: "06 - Workspace, colcon e pacotes"
+  tipo: conceito
+  p: "Qual o conteúdo mínimo de um pacote ROS 2 em Python?"
+  r: |
+    my_package/
+      package.xml            # meta-informação
+      resource/my_package    # arquivo marcador
+      setup.cfg
+      setup.py               # entry_points, data_files
+      my_package/            # mesmo nome do pacote, com __init__.py
+  n: ""
+
+- id: pkg-006
+  deck: "06 - Workspace, colcon e pacotes"
+  tipo: conceito
+  p: "Como registrar o executável 'talker' apontando para publisher_member_function.py?"
+  r: |
+    entry_points={
+        'console_scripts': [
+            'talker = py_pubsub.publisher_member_function:main',
+        ],
+    },
+  n: "Padrão: 'nome_executavel = nome_pacote.nome_modulo:main'. Vai no setup.py."
+
+- id: pkg-007
+  deck: "06 - Workspace, colcon e pacotes"
+  tipo: conceito
+  p: "Como declarar no package.xml que o pacote usa rclpy e std_msgs em tempo de execução?"
+  r: |
+    <exec_depend>rclpy</exec_depend>
+    <exec_depend>std_msgs</exec_depend>
+  n: ""
+
+# ---------------------------------------------------------------------
+# 07 - rclpy: pub/sub e service/client
+# ---------------------------------------------------------------------
+- id: py-001
+  deck: "07 - rclpy: pub/sub e service/client"
+  tipo: conceito
+  p: "Escreva de memória o main() padrão de um nó ROS 2 em Python."
+  r: |
+    def main(args=None):
+        rclpy.init(args=args)
+        node = MinhaClasse()
+        rclpy.spin(node)
+        node.destroy_node()
+        rclpy.shutdown()
+
+    if __name__ == '__main__':
+        main()
+  n: "Pipeline: init -> cria nó -> spin (processa callbacks) -> shutdown."
+
+- id: py-002
+  deck: "07 - rclpy: pub/sub e service/client"
+  tipo: cmd
+  p: "Linha que inicializa o contexto ROS no começo do main"
+  r: "rclpy.init(args=args)"
+  n: "Tem que vir ANTES de criar qualquer nó."
+
+- id: py-003
+  deck: "07 - rclpy: pub/sub e service/client"
+  tipo: cmd
+  p: "Linha que mantém o nó vivo processando callbacks"
+  r: "rclpy.spin(node)"
+  n: "Variantes: spin_once() e spin_until_future_complete()."
+
+- id: py-004
+  deck: "07 - rclpy: pub/sub e service/client"
+  tipo: cmd
+  p: "Linha que chama o construtor da classe Node dando o nome 'minimal_publisher'"
+  r: "super().__init__('minimal_publisher')"
+  n: "É esse nome que aparece no 'ros2 node list'."
+
+- id: py-005
+  deck: "07 - rclpy: pub/sub e service/client"
+  tipo: cmd
+  p: "Criar um publisher de String no tópico 'topic' com fila 10"
+  r: "self.publisher_ = self.create_publisher(String, 'topic', 10)"
+  n: "Assinatura: create_publisher(msg_type, topic, qos_profile)."
+
+- id: py-006
+  deck: "07 - rclpy: pub/sub e service/client"
+  tipo: cmd
+  p: "Criar um timer que chama self.timer_callback a cada 0.5 s"
+  r: "self.timer = self.create_timer(0.5, self.timer_callback)"
+  n: "Assinatura: create_timer(timer_period_sec, callback)."
+
+- id: py-007
+  deck: "07 - rclpy: pub/sub e service/client"
+  tipo: conceito
+  p: "Escreva a criação de um subscription de String em 'topic' com callback listener_callback."
+  r: |
+    self.subscription = self.create_subscription(
+        String,
+        'topic',
+        self.listener_callback,
+        10)
+  n: "Assinatura: create_subscription(msg_type, topic, callback, qos_profile)."
+
+- id: py-008
+  deck: "07 - rclpy: pub/sub e service/client"
+  tipo: cmd
+  p: "Publicar a mensagem msg no publisher self.publisher_"
+  r: "self.publisher_.publish(msg)"
+  n: ""
+
+- id: py-009
+  deck: "07 - rclpy: pub/sub e service/client"
+  tipo: cmd
+  p: "Logar a string 'Publishing' no console do nó"
+  r: "self.get_logger().info('Publishing')"
+  n: "Sai como [INFO] [nome_do_node]: Publishing. Também grava em ~/.ros/log/."
+
+- id: py-010
+  deck: "07 - rclpy: pub/sub e service/client"
+  tipo: cmd
+  p: "Importar o tipo de mensagem String"
+  r: "from std_msgs.msg import String"
+  n: ""
+
+- id: py-011
+  deck: "07 - rclpy: pub/sub e service/client"
+  tipo: cmd
+  p: "Criar um serviço AddTwoInts chamado 'add_two_ints' com callback add_two_ints_callback"
+  r: "self.srv = self.create_service(AddTwoInts, 'add_two_ints', self.add_two_ints_callback)"
+  n: "O callback recebe (request, response) e DEVE retornar response."
+
+- id: py-012
+  deck: "07 - rclpy: pub/sub e service/client"
+  tipo: cmd
+  p: "Criar um cliente do serviço AddTwoInts chamado 'add_two_ints'"
+  r: "self.cli = self.create_client(AddTwoInts, 'add_two_ints')"
+  n: ""
+
+- id: py-013
+  deck: "07 - rclpy: pub/sub e service/client"
+  tipo: conceito
+  p: "Escreva o laço que espera o servidor de serviço ficar disponível."
+  r: |
+    while not self.cli.wait_for_service(timeout_sec=1.0):
+        self.get_logger().info('service not available, waiting again...')
+  n: ""
+
+- id: py-014
+  deck: "07 - rclpy: pub/sub e service/client"
+  tipo: cmd
+  p: "Enviar o request de forma assíncrona guardando o Future"
+  r: "self.future = self.cli.call_async(self.req)"
+  n: ""
+
+- id: py-015
+  deck: "07 - rclpy: pub/sub e service/client"
+  tipo: cmd
+  p: "Bloquear até o Future self.future ser resolvido"
+  r: "rclpy.spin_until_future_complete(self, self.future)"
+  n: "Depois disso, self.future.result() tem a response."
+
+- id: py-016
+  deck: "07 - rclpy: pub/sub e service/client"
+  tipo: conceito
+  p: "Escreva o callback de um serviço que soma a e b."
+  r: |
+    def add_two_ints_callback(self, request, response):
+        response.sum = request.a + request.b
+        self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
+        return response
+  n: "Esquecer o 'return response' é o erro clássico."
+
+- id: py-017
+  deck: "07 - rclpy: pub/sub e service/client"
+  tipo: conceito
+  p: "O que é o terceiro argumento (10) do create_publisher?"
+  r: "O QoS / tamanho da fila: quantas mensagens ficam em buffer se o subscriber não consegue consumir na velocidade da publicação."
+  n: ""
+
+- id: py-018
+  deck: "07 - rclpy: pub/sub e service/client"
+  tipo: cmd
+  p: "Declarar um parâmetro 'my_parameter' com valor padrão 'world'"
+  r: "self.declare_parameter('my_parameter', 'world')"
+  n: ""
+
+- id: py-019
+  deck: "07 - rclpy: pub/sub e service/client"
+  tipo: cmd
+  p: "Ler o valor string do parâmetro 'my_parameter'"
+  r: "self.get_parameter('my_parameter').get_parameter_value().string_value"
+  n: "Outros: integer_value, double_value, bool_value, string_array_value."
+
+# ---------------------------------------------------------------------
+# 08 - Interfaces customizadas
+# ---------------------------------------------------------------------
+- id: int-001
+  deck: "08 - Interfaces customizadas"
+  tipo: conceito
+  p: "Por que um pacote de interfaces (.msg/.srv/.action) precisa ser ament_cmake?"
+  r: "Porque a geração de código das interfaces é feita pelo rosidl, que só roda em CMake. O pacote gerado pode ser usado depois tanto por C++ quanto por Python."
+  n: ""
+
+- id: int-002
+  deck: "08 - Interfaces customizadas"
+  tipo: conceito
+  p: "Escreva o bloco do CMakeLists.txt que gera Num.msg, Sphere.msg e AddThreeInts.srv."
+  r: |
+    find_package(rosidl_default_generators REQUIRED)
+
+    rosidl_generate_interfaces(${PROJECT_NAME}
+      "msg/Num.msg"
+      "msg/Sphere.msg"
+      "srv/AddThreeInts.srv"
+      DEPENDENCIES geometry_msgs
+    )
+  n: "DEPENDENCIES lista os pacotes de que as mensagens dependem."
+
+- id: int-003
+  deck: "08 - Interfaces customizadas"
+  tipo: conceito
+  p: "Quais tags o package.xml de um pacote de interfaces precisa ter?"
+  r: |
+    <buildtool_depend>rosidl_default_generators</buildtool_depend>
+    <exec_depend>rosidl_default_runtime</exec_depend>
+    <member_of_group>rosidl_interface_packages</member_of_group>
+  n: "Mais um <depend> para cada pacote de mensagens usado (ex.: geometry_msgs)."
+
+- id: int-004
+  deck: "08 - Interfaces customizadas"
+  tipo: cmd
+  p: "Confirmar que a interface tutorial_interfaces/msg/Num foi gerada"
+  r: "ros2 interface show tutorial_interfaces/msg/Num"
+  n: "Faça o source do workspace antes."
+
+- id: int-005
+  deck: "08 - Interfaces customizadas"
+  tipo: cmd
+  p: "Importar a mensagem customizada Num do pacote tutorial_interfaces"
+  r: "from tutorial_interfaces.msg import Num"
+  n: "Serviço: from tutorial_interfaces.srv import AddThreeInts"
+
+# ---------------------------------------------------------------------
+# 09 - Actions em Python
+# ---------------------------------------------------------------------
+- id: pyact-001
+  deck: "09 - Actions em Python"
+  tipo: conceito
+  p: "Escreva a criação de um ActionServer de Fibonacci no nome 'fibonacci'."
+  r: |
+    self._action_server = ActionServer(
+        self,
+        Fibonacci,
+        'fibonacci',
+        self.execute_callback)
+  n: "from rclpy.action import ActionServer. Os outros callbacks (goal/cancel/handle_accepted) são opcionais."
+
+- id: pyact-002
+  deck: "09 - Actions em Python"
+  tipo: cmd
+  p: "Criar um ActionClient de Fibonacci no nome 'fibonacci'"
+  r: "self._action_client = ActionClient(self, Fibonacci, 'fibonacci')"
+  n: "from rclpy.action import ActionClient"
+
+- id: pyact-003
+  deck: "09 - Actions em Python"
+  tipo: cmd
+  p: "Marcar o goal como concluído com sucesso, dentro do execute_callback"
+  r: "goal_handle.succeed()"
+  n: "Chame ANTES de montar e retornar o Result."
+
+- id: pyact-004
+  deck: "09 - Actions em Python"
+  tipo: cmd
+  p: "Publicar o feedback_msg para o cliente"
+  r: "goal_handle.publish_feedback(feedback_msg)"
+  n: "O feedback trafega por tópico, por isso não precisa de Future."
+
+- id: pyact-005
+  deck: "09 - Actions em Python"
+  tipo: cmd
+  p: "Enviar o goal de forma assíncrona (cliente)"
+  r: "self._action_client.send_goal_async(goal_msg)"
+  n: "Retorna um Future cujo .result() é um ClientGoalHandle."
+
+- id: pyact-006
+  deck: "09 - Actions em Python"
+  tipo: cmd
+  p: "Registrar goal_response_callback para quando o Future do goal resolver"
+  r: "self._send_goal_future.add_done_callback(self.goal_response_callback)"
+  n: ""
+
+- id: pyact-007
+  deck: "09 - Actions em Python"
+  tipo: cmd
+  p: "Pedir o resultado ao servidor a partir do goal_handle"
+  r: "self._get_result_future = goal_handle.get_result_async()"
+  n: "Segunda chamada assíncrona: uma para aceitar o goal, outra para o result."
+
+- id: pyact-008
+  deck: "09 - Actions em Python"
+  tipo: cmd
+  p: "Pedir o feedback ao enviar o goal (argumento do send_goal_async)"
+  r: "feedback_callback=self.feedback_callback"
+  n: "send_goal_async(goal_msg, feedback_callback=self.feedback_callback)"
+
+- id: pyact-009
+  deck: "09 - Actions em Python"
+  tipo: conceito
+  p: "Como o cliente verifica se o goal foi aceito?"
+  r: |
+    def goal_response_callback(self, future):
+        goal_handle = future.result()
+        if not goal_handle.accepted:
+            self.get_logger().info('Goal rejected :(')
+            return
+  n: ""
+
+- id: pyact-010
+  deck: "09 - Actions em Python"
+  tipo: conceito
+  p: "Quais são os callbacks do ActionServer, em ordem, e quais são obrigatórios?"
+  r: "goal_callback (aceita/rejeita) -> handle_accepted_callback (despacha) -> execute_callback (faz o trabalho). Só o execute_callback é obrigatório; os outros têm implementação padrão. Em paralelo existe o cancel_callback."
+  n: ""
+
+# ---------------------------------------------------------------------
+# 10 - Launch files
+# ---------------------------------------------------------------------
+- id: lau-001
+  deck: "10 - Launch files"
+  tipo: cmd
+  p: "Rodar o launch multisim.launch.py do pacote turtlesim"
+  r: "ros2 launch turtlesim multisim.launch.py"
+  n: "Forma geral: ros2 launch <pacote> <arquivo>"
+
+- id: lau-002
+  deck: "10 - Launch files"
+  tipo: cmd
+  p: "Rodar um launch file solto, pelo caminho do arquivo"
+  r: "ros2 launch turtlesim_mimic_launch.py"
+  n: "Funciona, mas o certo é instalar dentro de um pacote."
+
+- id: lau-003
+  deck: "10 - Launch files"
+  tipo: cmd
+  p: "Qual flag lista os argumentos aceitos por um launch file?"
+  r: "--show-args"
+  n: "ros2 launch pkg arq.launch.py --show-args"
+
+- id: lau-004
+  deck: "10 - Launch files"
+  tipo: cmd
+  p: "Passar o argumento use_sim_time=true na linha de comando do launch"
+  r: "ros2 launch pkg arq.launch.py use_sim_time:=true"
+  n: "É := (dois pontos igual), não =."
+
+- id: lau-005
+  deck: "10 - Launch files"
+  tipo: conceito
+  p: "Escreva o esqueleto mínimo de um launch file em Python."
+  r: |
+    from launch import LaunchDescription
+    from launch_ros.actions import Node
+
+    def generate_launch_description():
+        return LaunchDescription([
+            Node(
+                package='turtlesim',
+                executable='turtlesim_node',
+                name='sim'
+            ),
+        ])
+  n: "LaunchDescription vem de 'launch'; Node vem de 'launch_ros.actions'."
+
+- id: lau-006
+  deck: "10 - Launch files"
+  tipo: cmd
+  p: "Qual função todo launch file Python precisa definir?"
+  r: "generate_launch_description"
+  n: "O ros2 launch procura exatamente por esse nome."
+
+- id: lau-007
+  deck: "10 - Launch files"
+  tipo: conceito
+  p: "Declarar o argumento 'cor_r' com default 200 e ler o valor dele."
+  r: |
+    DeclareLaunchArgument('cor_r', default_value='200')
+    ...
+    LaunchConfiguration('cor_r')
+  n: "DeclareLaunchArgument declara; LaunchConfiguration lê (na hora da execução)."
+
+- id: lau-008
+  deck: "10 - Launch files"
+  tipo: conceito
+  p: "Incluir outro launch file passando argumentos para ele."
+  r: |
+    IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([os.path.join(
+            get_package_share_directory('meu_pkg'), 'launch'),
+            '/filho.launch.py']),
+        launch_arguments={'cor_r': '200'}.items()
+    )
+  n: "O .items() no fim não é opcional: launch_arguments espera pares, não dict."
+
+- id: lau-009
+  deck: "10 - Launch files"
+  tipo: conceito
+  p: "Executar um comando de shell qualquer a partir do launch."
+  r: |
+    ExecuteProcess(
+        cmd=[['ros2 topic pub --once /turtle1/cmd_vel ...']],
+        shell=True,
+        output='screen'
+    )
+  n: "É como você chama serviço/tópico de dentro do launch."
+
+- id: lau-010
+  deck: "10 - Launch files"
+  tipo: conceito
+  p: "Agrupar actions dentro de um namespace."
+  r: |
+    GroupAction(
+        actions=[
+            PushRosNamespace('turtlesim2'),
+            turtlesim_world_2,
+        ]
+    )
+  n: "PushRosNamespace vem de launch_ros.actions. Evita declarar namespace nó a nó."
+
+- id: lau-011
+  deck: "10 - Launch files"
+  tipo: conceito
+  p: "Executar uma lista de actions 5 segundos depois do início."
+  r: "TimerAction(period=5.0, actions=[...])"
+  n: ""
+
+- id: lau-012
+  deck: "10 - Launch files"
+  tipo: conceito
+  p: "Disparar uma action quando outro processo terminar."
+  r: |
+    RegisterEventHandler(
+        OnProcessExit(
+            target_action=processo_anterior,
+            on_exit=[proxima_action],
+        )
+    )
+  n: "Mais robusto que TimerAction: reage a evento, não a relógio."
+
+- id: lau-013
+  deck: "10 - Launch files"
+  tipo: conceito
+  p: "Quais são os 5 event handlers de launch e quando disparam?"
+  r: "OnProcessStart (processo começou), OnProcessIO (imprimiu algo), OnExecutionComplete (action concluiu), OnProcessExit (processo morreu), OnShutdown (o launch inteiro está desligando)."
+  n: ""
+
+- id: lau-014
+  deck: "10 - Launch files"
+  tipo: conceito
+  p: "Remapear tópicos de um nó dentro do launch."
+  r: |
+    remappings=[
+        ('/input/pose', '/turtle1/pose'),
+        ('/output/cmd_vel', '/turtle2/cmd_vel'),
+    ]
+  n: "Par (nome_original, nome_novo)."
+
+- id: lau-015
+  deck: "10 - Launch files"
+  tipo: conceito
+  p: "O que colocar no setup.py para o colcon instalar os launch files?"
+  r: |
+    data_files=[
+        (os.path.join('share', package_name, 'launch'),
+            glob(os.path.join('launch', '*launch.[pxy][yma]*'))),
+    ],
+  n: "Precisa de 'import os' e 'from glob import glob' no topo."
+
+- id: lau-016
+  deck: "10 - Launch files"
+  tipo: conceito
+  p: "Como um YAML de parâmetros aplica a MESMA config a todos os nós?"
+  r: |
+    /**:
+       ros__parameters:
+          background_r: 150
+  n: "/** é o curinga. Sem ele, a chave é /namespace/nome_do_no."
+
+- id: lau-017
+  deck: "10 - Launch files"
+  tipo: conceito
+  p: "Por que o turtle_teleop_key não recebe teclado quando lançado por launch, e como resolver?"
+  r: |
+    Processos do launch não ganham TTY. Solução:
+    Node(package='turtlesim', executable='turtle_teleop_key',
+         prefix='xterm -e', output='screen')
+  n: "Precisa de: sudo apt install xterm"
+
+- id: lau-018
+  deck: "10 - Launch files"
+  tipo: conceito
+  p: "No Foxy não existe ForLoop/ForEach. Como repetir N actions com N vindo da CLI?"
+  r: |
+    def gerar(context):
+        n = int(LaunchConfiguration('voltas').perform(context))
+        return [TimerAction(period=2.0*i, actions=[...]) for i in range(n)]
+
+    OpaqueFunction(function=gerar)
+  n: "Só o OpaqueFunction tem acesso ao contexto de execução (.perform)."
+
+# ---------------------------------------------------------------------
+# 11 - tf2
+# ---------------------------------------------------------------------
+- id: tf-001
+  deck: "11 - tf2"
+  tipo: cmd
+  p: "Publicar via CLI uma transformação estática 1 m acima de 'world' para 'mystaticturtle' (Foxy)"
+  r: "ros2 run tf2_ros static_transform_publisher 0 0 1 0 0 0 world mystaticturtle"
+  n: "ORDEM NO FOXY: x y z yaw pitch roll frame_id child_frame_id. Cuidado: yaw vem primeiro."
+
+- id: tf-002
+  deck: "11 - tf2"
+  tipo: cmd
+  p: "Ver a transformação entre os frames world e turtle1"
+  r: "ros2 run tf2_ros tf2_echo world turtle1"
+  n: "Imprime Translation e Rotation (quaternion) a cada atualização."
+
+- id: tf-003
+  deck: "11 - tf2"
+  tipo: cmd
+  p: "Fazer echo no /tf_static (que usa QoS transient_local)"
+  r: "ros2 topic echo --qos-reliability reliable --qos-durability transient_local /tf_static"
+  n: "Sem os flags de QoS você não vê nada: o /tf_static publica uma vez só, com latch."
+
+- id: tf-004
+  deck: "11 - tf2"
+  tipo: cmd
+  p: "Criar o broadcaster de transformações ESTÁTICAS dentro do nó"
+  r: "self.tf_static_broadcaster = StaticTransformBroadcaster(self)"
+  n: "from tf2_ros.static_transform_broadcaster import StaticTransformBroadcaster"
+
+- id: tf-005
+  deck: "11 - tf2"
+  tipo: cmd
+  p: "Criar o broadcaster de transformações DINÂMICAS dentro do nó"
+  r: "self.tf_broadcaster = TransformBroadcaster(self)"
+  n: "from tf2_ros import TransformBroadcaster"
+
+- id: tf-006
+  deck: "11 - tf2"
+  tipo: cmd
+  p: "Enviar a transformação t"
+  r: "self.tf_broadcaster.sendTransform(t)"
+  n: "sendTransform, camelCase."
+
+- id: tf-007
+  deck: "11 - tf2"
+  tipo: conceito
+  p: "Escreva de memória o preenchimento de um TransformStamped."
+  r: |
+    t = TransformStamped()
+    t.header.stamp = self.get_clock().now().to_msg()
+    t.header.frame_id = 'world'          # frame PAI
+    t.child_frame_id = 'turtle1'         # frame FILHO
+    t.transform.translation.x = msg.x
+    t.transform.translation.y = msg.y
+    t.transform.translation.z = 0.0
+    q = quaternion_from_euler(0, 0, msg.theta)
+    t.transform.rotation.x = q[0]
+    t.transform.rotation.y = q[1]
+    t.transform.rotation.z = q[2]
+    t.transform.rotation.w = q[3]
+    self.tf_broadcaster.sendTransform(t)
+  n: "Ordem: stamp -> frame pai -> frame filho -> translação -> rotação -> envia."
+
+- id: tf-008
+  deck: "11 - tf2"
+  tipo: conceito
+  p: "Escreva as duas linhas que montam um listener de tf2."
+  r: |
+    self.tf_buffer = Buffer()
+    self.tf_listener = TransformListener(self.tf_buffer, self)
+  n: "O Buffer guarda ~10 s de transformações; o Listener se inscreve em /tf e /tf_static."
+
+- id: tf-009
+  deck: "11 - tf2"
+  tipo: conceito
+  p: "Consultar a transformação mais recente entre dois frames (com tratamento de erro)."
+  r: |
+    try:
+        t = self.tf_buffer.lookup_transform(
+            to_frame_rel,
+            from_frame_rel,
+            rclpy.time.Time())
+    except TransformException as ex:
+        self.get_logger().info(f'Could not transform: {ex}')
+        return
+  n: "rclpy.time.Time() vazio = 'a última disponível'."
+
+- id: tf-010
+  deck: "11 - tf2"
+  tipo: conceito
+  p: "Fórmula de controle usada para uma tartaruga perseguir a outra"
+  r: |
+    comando = ganho x erro
+
+    msg.angular.z = 1.0 * atan2(t.transform.translation.y, t.transform.translation.x)
+    msg.linear.x  = 0.5 * sqrt(x**2 + y**2)
+  n: "Erro angular = ângulo até o alvo; erro linear = distância euclidiana."
+
+- id: tf-011
+  deck: "11 - tf2"
+  tipo: conceito
+  p: "Para que serve publicar transformações estáticas?"
+  r: "Para descrever a relação fixa entre a base do robô e as partes que não se movem (sensores, por exemplo). Publica uma vez no /tf_static, com latch."
+  n: ""

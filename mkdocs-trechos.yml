@@ -1,0 +1,105 @@
+# =====================================================================
+#  Trechos para colar no seu mkdocs.yml
+#  (não substitua o arquivo inteiro — só acrescente o que faltar)
+# =====================================================================
+
+# ---------------------------------------------------------------------
+#  1. EXTENSÕES  — sem elas os admonitions, as abas de código, o mermaid
+#     e as fórmulas do capítulo de tf2 não renderizam
+# ---------------------------------------------------------------------
+markdown_extensions:
+  - admonition                 # !!! note / !!! warning
+  - pymdownx.details           # ??? question  (o "flashcard" colapsado)
+  - pymdownx.superfences:      # blocos de código aninhados + mermaid
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets          # reaproveitar blocos entre páginas
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.arithmatex:       # as fórmulas de controle em tf2
+      generic: true
+  - pymdownx.emoji:            # o ícone :material-keyboard: da página de flashcards
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
+  - md_in_html                 # necessário para o "grid cards" do index
+  - tables
+  - toc:
+      permalink: true
+
+# ---------------------------------------------------------------------
+#  2. TEMA — o "grid cards" do index.md exige o Material
+# ---------------------------------------------------------------------
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy      # botão de copiar em cada bloco
+    - content.code.annotate
+  palette:
+    - scheme: default
+      toggle: {icon: material/brightness-7, name: modo escuro}
+    - scheme: slate
+      toggle: {icon: material/brightness-4, name: modo claro}
+
+# ---------------------------------------------------------------------
+#  3. MathJax — para o arithmatex funcionar
+#     crie docs/javascripts/mathjax.js com o snippet da doc do Material
+# ---------------------------------------------------------------------
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+# ---------------------------------------------------------------------
+#  4. NAV do capítulo de ROS 2
+# ---------------------------------------------------------------------
+nav:
+  - Início: index.md
+  - Introdução: 01-introducao/index.md
+  - Fundamentos: 02-fundamentos/index.md
+  - Robótica aplicada:
+      - 03-robotica-aplicada/index.md
+      - ROS 2:
+          - 03-robotica-aplicada/01-ros2/index.md
+          - CLI Tools: 03-robotica-aplicada/01-ros2/01-cli-tools.md
+          - Workspace e pacotes: 03-robotica-aplicada/01-ros2/02-workspace-e-pacotes.md
+          - Publisher/Subscriber e Serviços: 03-robotica-aplicada/01-ros2/03-pub-sub-e-servicos.md
+          - Actions: 03-robotica-aplicada/01-ros2/04-actions.md
+          - Launch:
+              - Criando um launch file: 03-robotica-aplicada/01-ros2/05-launch-criando.md
+              - Launch em pacotes: 03-robotica-aplicada/01-ros2/06-launch-em-pacotes.md
+              - Substituições: 03-robotica-aplicada/01-ros2/07-launch-substituicoes.md
+              - Event handlers: 03-robotica-aplicada/01-ros2/08-launch-event-handlers.md
+              - Projetos grandes: 03-robotica-aplicada/01-ros2/09-launch-projetos-grandes.md
+              - Exercícios: 03-robotica-aplicada/01-ros2/10-launch-exercicios.md
+          - tf2: 03-robotica-aplicada/01-ros2/11-tf2.md
+          - Flashcards: 03-robotica-aplicada/01-ros2/99-flashcards.md
+          - Errata: 03-robotica-aplicada/01-ros2/ERRATA.md
+      - Nav2: 03-robotica-aplicada/02-nav2/index.md
+      - Linux: 03-robotica-aplicada/03-linux/index.md
+  - Apêndice: apendice/index.md
+
+# ---------------------------------------------------------------------
+#  5. RENOMEAÇÕES sugeridas nos arquivos que você já tem
+# ---------------------------------------------------------------------
+#   02-launch-criando.md       -> 05-launch-criando.md      (substituído)
+#   02-launch-ros-packages.md  -> 06-launch-em-pacotes.md   (substituído)
+#   03-launch-substituicoes.md -> 07-launch-substituicoes.md
+#   04-launch-event-handler.md -> 08-launch-event-handlers.md
+#   05-launch-ros-projetos.md  -> 09-launch-projetos-grandes.md
+#   06-launch-exercicios.md    -> 10-launch-exercicios.md   (MANTENHA o seu)
+#
+#   O 02-launch-ros-packages.md atual está com o conteúdo do 01-cli-tools.md
+#   (copiado por engano) — o novo arquivo resolve isso.
+
+# ---------------------------------------------------------------------
+#  6. Dependências
+# ---------------------------------------------------------------------
+#   pip install mkdocs-material pymdown-extensions
+#   pip install genanki pyyaml        # para o baralho

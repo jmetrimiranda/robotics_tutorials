@@ -1,0 +1,10 @@
+# Dependências do livro. Instale com:
+#   pip install -r requirements.txt
+#
+# As versões estão limitadas de propósito: o Material anunciou que a MkDocs 2.0
+# vai quebrar plugins e temas sem caminho de migração. Sem o teto, um build no
+# CI daqui a alguns meses poderia falhar sozinho, sem você ter mudado nada.
+
+mkdocs>=1.6,<2.0
+mkdocs-material>=9.5,<10.0
+pymdown-extensions>=10.0
