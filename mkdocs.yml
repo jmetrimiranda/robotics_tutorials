@@ -62,6 +62,7 @@ nav:
               - Usando Event Handlers: 03-robotica-aplicada/01-ros2/08-launch-event-handlers.md
               - Gerenciando grandes projetos: 03-robotica-aplicada/01-ros2/09-launch-projetos-grandes.md
               - Exercícios: 03-robotica-aplicada/01-ros2/10-launch-exercicios.md
+              - Launch avançado: 03-robotica-aplicada/01-ros2/12-launch-avancado.md
           - tf2: 03-robotica-aplicada/01-ros2/11-tf2.md
           - Flashcards: 03-robotica-aplicada/01-ros2/99-flashcards.md
           - Errata: 03-robotica-aplicada/01-ros2/ERRATA.md
