@@ -68,6 +68,9 @@ nav:
           - Errata: 03-robotica-aplicada/01-ros2/ERRATA.md
       - Nav2: 03-robotica-aplicada/02-nav2/index.md
       - Linux: 03-robotica-aplicada/03-linux/index.md
+      - Unitree Go2 EDU:
+          - Visão geral: 03-robotica-aplicada/04-unitree-go2-edu/index.md
+          - Links e referências: 03-robotica-aplicada/04-unitree-go2-edu/01-links.md
 
   - Apêndices:
       - Guia de formatos: apendice/guia-de-formatos.md
