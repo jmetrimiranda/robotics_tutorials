@@ -230,3 +230,9 @@ Documentação da interface Python do SDK2.
 
     Lendo o `sport/sport_client.py`, por exemplo, você vê exatamente qual
     chamada de API cada método dispara — informação que o exemplo esconde.
+
+!!! tip "Já fizemos essa leitura por você"
+    O capítulo **[O SDK Python (`unitree_sdk2py/go2`)](02-sdk-python/index.md)**
+    documenta os cinco módulos um a um: o que cada método faz, em que ordem
+    chamá-los, a tabela de códigos de erro (que não existe no repositório) e
+    exemplos comentados de ponta a ponta.

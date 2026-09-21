@@ -27,5 +27,8 @@ da peça de montagem nos links.
 
 - **[Links e referências](01-links.md)** — documentação oficial, datasheets,
   stack de navegação da CMU, SDKs e a peça 3D do suporte do lidar
+- **[O SDK Python (`unitree_sdk2py/go2`)](02-sdk-python/index.md)** — a
+  documentação que a Unitree não escreveu: os cinco módulos de controle,
+  módulo por módulo, com exemplos comentados
 
 </div>

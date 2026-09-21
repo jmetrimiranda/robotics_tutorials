@@ -71,6 +71,14 @@ nav:
       - Unitree Go2 EDU:
           - Visão geral: 03-robotica-aplicada/04-unitree-go2-edu/index.md
           - Links e referências: 03-robotica-aplicada/04-unitree-go2-edu/01-links.md
+          - SDK Python (unitree_sdk2py/go2):
+              - Visão geral: 03-robotica-aplicada/04-unitree-go2-edu/02-sdk-python/index.md
+              - Anatomia de um client: 03-robotica-aplicada/04-unitree-go2-edu/02-sdk-python/01-anatomia-de-um-client.md
+              - "sport — movimento": 03-robotica-aplicada/04-unitree-go2-edu/02-sdk-python/02-sport.md
+              - "video — câmera frontal": 03-robotica-aplicada/04-unitree-go2-edu/02-sdk-python/03-video.md
+              - "obstacles_avoid — desvio de obstáculos": 03-robotica-aplicada/04-unitree-go2-edu/02-sdk-python/04-obstacles-avoid.md
+              - "vui — luz e som": 03-robotica-aplicada/04-unitree-go2-edu/02-sdk-python/05-vui.md
+              - "robot_state — serviços do robô": 03-robotica-aplicada/04-unitree-go2-edu/02-sdk-python/06-robot-state.md
 
   - Apêndices:
       - Guia de formatos: apendice/guia-de-formatos.md
